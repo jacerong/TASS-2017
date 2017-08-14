@@ -1,0 +1,123 @@
+read spaced-text lexicon-1.txt
+save stack lexicon-1.bin
+clear
+
+read spaced-text lexicon-2.txt
+save stack lexicon-2.bin
+clear
+
+read spaced-text lexicon-3.txt
+save stack lexicon-3.bin
+clear
+
+read spaced-text lexicon-4.txt
+save stack lexicon-4.bin
+clear
+
+read spaced-text lexicon-5.txt
+save stack lexicon-5.bin
+clear
+
+read spaced-text lexicon-6.txt
+save stack lexicon-6.bin
+clear
+
+read spaced-text lexicon-7.txt
+save stack lexicon-7.bin
+clear
+
+read spaced-text lexicon-8.txt
+save stack lexicon-8.bin
+clear
+
+read spaced-text lexicon-9.txt
+save stack lexicon-9.bin
+clear
+
+read spaced-text lexicon-10.txt
+save stack lexicon-10.bin
+clear
+
+read spaced-text lexicon-11.txt
+save stack lexicon-11.bin
+clear
+
+read spaced-text lexicon-12.txt
+save stack lexicon-12.bin
+clear
+
+read spaced-text lexicon-13.txt
+save stack lexicon-13.bin
+clear
+
+read spaced-text lexicon-14.txt
+save stack lexicon-14.bin
+clear
+
+read spaced-text lexicon-15.txt
+save stack lexicon-15.bin
+clear
+
+read spaced-text lexicon-16.txt
+save stack lexicon-16.bin
+clear
+
+read spaced-text lexicon-17.txt
+save stack lexicon-17.bin
+clear
+
+read spaced-text lexicon-18.txt
+save stack lexicon-18.bin
+clear
+
+read spaced-text lexicon-19.txt
+save stack lexicon-19.bin
+clear
+
+read spaced-text lexicon-20.txt
+save stack lexicon-20.bin
+clear
+
+read spaced-text lexicon-21.txt
+save stack lexicon-21.bin
+clear
+
+read spaced-text lexicon-22.txt
+save stack lexicon-22.bin
+clear
+
+read spaced-text lexicon-23.txt
+save stack lexicon-23.bin
+clear
+
+read spaced-text lexicon-24.txt
+save stack lexicon-24.bin
+clear
+
+read spaced-text lexicon-25.txt
+save stack lexicon-25.bin
+clear
+
+read spaced-text lexicon-26.txt
+save stack lexicon-26.bin
+clear
+
+read spaced-text lexicon-27.txt
+save stack lexicon-27.bin
+clear
+
+read spaced-text lexicon-28.txt
+save stack lexicon-28.bin
+clear
+
+read spaced-text lexicon-29.txt
+save stack lexicon-29.bin
+clear
+
+read spaced-text lexicon-30.txt
+save stack lexicon-30.bin
+clear
+
+read spaced-text lexicon-31.txt
+save stack lexicon-31.bin
+clear
