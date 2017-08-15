@@ -1,0 +1,12 @@
+#[^\s]+ $$ NP00000
+RT .response-to. NCFS000
+@[^\s]+ $$ NP00000
+EMO_POS $$ I
+EMO_NEG $$ I
+d de SPS00
+k que CS
+q que CS que PR0CN000 qué PT0CN000
+t te PP2CS000
+x por SPS000
+[px][qk] porque CS
+xa para SPS00

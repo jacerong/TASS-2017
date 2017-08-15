@@ -1,0 +1,22 @@
+<config>
+    <FreeLing>
+        <!-- Define the port where FreeLing will listen to client's request. Note that the main program automatically starts a FreeLing server up, using the defined port. -->
+        <port>50104</port>
+    </FreeLing>
+    <foma>
+        <path></path>
+        <!-- Define the server's IP address where transducers run as UDP servers using the foma's 'flookup' utility. Note that the main program is able to automatically start an UDP server up for each transducer in localhost, which is the recommended option. So, if you don't modify the default IP address, the main program will do everything for you; otherwise, make sure all transducers are running up as UDP servers. -->
+        <server_ip>127.0.0.1</server_ip>
+    </foma>
+    <system>
+        <!-- Which operating system's user will own the processes automatically started by the main program? Such as 'flookup' servers. -->
+        <user></user>
+    </system>
+    <spell_checker>
+        <!-- Each sentiment analysis system uses a spell checking program called "normalesp" in order to improve the quality of natural language analysis. Because of this, "normalesp" should be already installed and waiting for REST requests by means of its API.
+
+        For more information about "normalesp", please check its official page at: <https://github.com/jacerong/normalesp>
+        -->
+        <api_url>http://127.0.0.1:8000/api/spell_checking/</api_url>
+    </spell_checker>
+</config>
