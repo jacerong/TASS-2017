@@ -9,7 +9,12 @@ If you use this software in research, please cite:
     author = {Cer\'{o}n-Guzm\'{a}n, Jhon Adri\'{a}n},
 	title = {Classifier Ensembles That Push the State-of-the-Art in Sentiment Analysis of Spanish Tweets},
 	booktitle = {Proceedings of TASS 2017: Workshop on Semantic Analysis at SEPLN (TASS 2017)},
-	year = {2017}
+    volume = {1896},
+    series = {CEUR Workshop Proceedings},
+    address = {Murcia, Spain},
+    publisher = {CEUR-WS},
+    year = {2017},
+    month = {September}
 }
 ```
 
