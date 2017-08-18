@@ -8,10 +8,6 @@ import datetime, re, xml.etree.ElementTree as ET
 import pymongo
 
 
-# Parámetros del repositorio que se utilizará en MongoDB
-MONGO_SETTINGS = {'db': 'tass_2017'}
-
-
 def _to_unicode(token):
     return token.decode('utf-8') if not isinstance(token, unicode) else token
 
@@ -38,7 +34,7 @@ def _tweet_date_to_datetime_object(tweet_date):
             int(r.group('hour')), int(r.group('minute')), int(r.group('second')))
 
 
-def read_and_save_data(fname, corpus, dataset):
+def read_and_save_data(fname, corpus, dataset, mongo_db="tass_2017"):
     """Lee un archivo que contiene una colección de tweets.
 
     parámetros:
@@ -50,7 +46,8 @@ def read_and_save_data(fname, corpus, dataset):
 
             De esta manera se diferencia cuál colección del corpus especificado se
             utilizará.
-
+        mongo_db: str
+            Nombre de la BD donde se guardará la colección de tweets.
     salida:
         (ninguna)
 
@@ -65,7 +62,7 @@ def read_and_save_data(fname, corpus, dataset):
         raise ValueError('El conjunto de datos especificado no es válido.')
 
     client = pymongo.MongoClient()
-    coll = client[MONGO_SETTINGS['db']][corpus]
+    coll = client[mongo_db][corpus]
 
     is_coll_empty = True if coll.count() == 0 else False
 
