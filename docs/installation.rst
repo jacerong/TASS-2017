@@ -115,7 +115,7 @@ It is strongly recommended **NOT** to close this terminal or type other Python i
 
 In the same way, please make sure the required services of the ``normalesp`` program are running.
 
-To stop the services, please type the following instruction::
+To stop the services, type the following instruction::
 
     >>> _switch_sentiment_services('off')
 
@@ -147,24 +147,24 @@ The ``build_vectorization_based_classifiers`` function in the ``/jacerong/experi
     >> from model_selection import build_vectorization_based_classifiers
     >> build_vectorization_based_classifiers('intertass')
 
-As a result, this Python function creates the ``/jacerong/experimentation/intertass-model-selection-results.tsv`` file whose structure is described below.
+As a result, this Python function creates the ``/jacerong/experimentation/intertass-model-selection-results.tsv`` file whose structure is described below:
 
 - *negation_id*: parameter setting used to instantiate the negation detection module. This identifier corresponds to one of the keys of the ``NEGATION_SETTINGS`` dictionary in the ``/jacerong/sentiment_analysis.py`` file.
 - *lexicon_id*.
 - *analyzer*: how the n-gram feature vector is made. ``word`` or ``char`` means the feature vector is made of word or character n-grams, respectively; ``both``, instead, means the feature vector is made by concatenating word and character n-grams.
 - *word_ngram_range*: range of n-values for different word n-grams to be extracted. ``(-1,-1)`` when ``analyzer`` is ``char``.
 - *char_ngram_range*: range of n-values for different character n-grams to be extracted. ``(-1,-1)`` when ``analyzer`` is ``word``.
-- *lowercase*: convert all characters to lowercase before tokenizing.
+- *lowercase*: if ``True``, all characters are converted to lowercase before tokenizing.
 - *max_df*: tokens whose document frequency is higher than this threshold are ignored.
 - *min_df*: tokens whose document frequency is lower than this threshold are ignored.
-- *binary*: If True, the term frequency (tf) is binary.
-- *algo*: whether the algorithm utilized is 'LogisticRegression' or 'LinearSVC'.
+- *binary*: if ``True``, the term frequency (tf) is binary.
+- *algo*: whether the algorithm utilized is ``LogisticRegression`` or ``LinearSVC``.
 - *C*: penalty parameter.
 - *cv_score*: mean cross-validated score for the parameter setting.
 
 *This process may take several days to complete*.
 
-**2. Filtering the best n first-level classifiers and preparing level-one data**. The ``prepare_level_one_data`` function in the ``/jacerong/experimentation/model_selection.py`` file filters the best *n* first-level classifiers according to their predictive performance on cross validation. Then, it persists these first-level classifiers in the ``/jacerong/model_persistence/intertass/`` path, and saves their out-of-fold predictions in the ``/jacerong/experimentation/level-one-data/intertass/`` path. Out-of-fold predictions will be used to train second-level classifiers, i.e. the ones that take level-one predictions and then optimally combine them to obtain a better final prediction.
+**2. Filtering the best first-level classifiers and preparing level-one data**. The ``prepare_level_one_data`` function in the ``/jacerong/experimentation/model_selection.py`` file filters the best ``n`` first-level classifiers according to their predictive performance on cross validation. Then, it persists these first-level classifiers and the vectorizers in the ``/jacerong/model_persistence/intertass/classifiers/`` and ``/jacerong/model_persistence/intertass/vectorizers/`` paths, respectively, and saves their out-of-fold predictions as the level-one data in the ``/jacerong/experimentation/level-one-data/intertass/`` path. These out-of-fold predictions will be used to train second-level classifiers, i.e. the ones that take level-one predictions and then optimally combine them to obtain a better final prediction.
 
 ::
 
@@ -176,5 +176,42 @@ As a result, this Python function creates the ``/jacerong/experimentation/intert
 Thus, the best 100 first-level classifiers are filtered.
 
 *This process may take several minutes to complete*.
+
+**3. Finding the less-correlated combinations of first-level classifiers**. Empirical findings indicate that the less-correlated combinations of first-level classifiers achieves top results (Cerón-Guzmán, 2016). Therefore, the Pearson correlation for all the out-of-fold predictions of the best first-level classifiers will be calculated using the ``find_low_correlated_combinations`` function in the ``/jacerong/experimentation/model_selection.py`` file.
+
+::
+
+    $ cd /jacerong/experimentation/
+    $ python
+    >> from model_selection import find_low_correlated_combinations
+    >> find_low_correlated_combinations('intertass', n_classifiers=50)
+
+As a result, the less-correlated combinations of 2 and up to ``n`` first-level classifiers are determined.
+
+*This process may take several minutes to complete*.
+
+**4. Searching for the best second-level classifiers**. To take level-one predictions and then optimally combine them two ensemble methods were implemented, namely: stacking and averaging. Regarding this, the ``search_for_the_best_second_level_classifiers`` function in the ``/jacerong/experimentation/model_selection.py`` file searches for the best ensembles based on stacking and based on averaging. For such a search, the function also selects the classifiers with the highest out-of-fold prediction accuracy values to constitute an ensemble; take into account that the other selection method is based on the Pearson correlation. As a final point, the ensembles based on stacking are persisted in the ``/jacerong/model_persistence/intertass/stackers/`` path.
+
+::
+
+    $ cd /jacerong/experimentation/
+    $ python
+    >> from model_selection import search_for_the_best_second_level_classifiers
+    >> search_for_the_best_second_level_classifiers('intertass')
+    
+As a result, this Python function creates the ``/jacerong/experimentation/intertass-model-selection-ensemble-results.tsv`` file whose structure is described below:
+
+- *n_classifiers*: number of classifiers that constitute the ensemble.
+- *ensemble_method*: {'unweighted_average', 'stacking'}.
+- *selection_method*: {'low_crltn', 'best_ranked'}.
+- *algo*: ``both`` when ``selection_method`` takes the ``stacking`` value; otherwise, ``logit``.
+- *clf_ids*: comma-separated list of the classifiers that constitute the ensemble. One id in the list corresponds to the id-th row in the ``/jacerong/experimentation/intertass-model-selection-results.tsv`` file (zero-based numbering)
+- *stacking_algo*: {'logit', 'SVM_rbf', 'rf'} when the ``ensemble_method`` field takes the ``stacking`` value; otherwise, ``(None)``. ``logit``, ``SVM_rbf``, ``rf`` stand for Logistic Regression, Support Vector Machine with ``rbf`` kernel, and Random Forest, respectively. In other words, this is the algorithm utilized by the second-level classifier.
+- *hyperparameters*: hyperparameters for the algorithm utilized by the second-level classifier.
+- *CV_score*: mean cross-validated score for the ensemble.
+
+*This process may take several minutes to complete*.
+
+**NOTE**: because the scikit-learn implementation of the ``Linear Support Vector Classification`` algorithm does not support the ``predict_proba`` method, only first-level classifiers that utilize the ``Logistic Regression`` algorithm are eligibles to constitute ensembles based on averaging.
 
 .. [#] The InterTASS dataset can be downloaded from the workshop official page as indicated `there <http://www.sepln.org/workshops/tass/2017/#datasets>`_.
