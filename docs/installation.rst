@@ -68,14 +68,14 @@ Finally, the structure of the XML data the ``read_and_save_data`` function expec
         </tweet>
         <tweet>
             <tweetid>000000000000000002</tweetid>
-    		<user>user_2</user>
-	    	<content>Quiero mogollón a @user pero sobretodo por lo rápido que contesta a los wasaps</content>
-    		<date>2016-08-23 23:01:33</date>
-    		<lang>es</lang>
-    		<sentiment>
-	    		<polarity><value>P</value></polarity>
-	    	</sentiment>
-	    </tweet>
+            <user>user_2</user>
+            <content>Quiero mogollón a @user pero sobretodo por lo rápido que contesta a los wasaps</content>
+            <date>2016-08-23 23:01:33</date>
+            <lang>es</lang>
+            <sentiment>
+                <polarity><value>P</value></polarity>
+            </sentiment>
+        </tweet>
     </tweets>
 
 The above example shows a set of 2 tweets. The first tweet is labeled with a negative (N) global polarity, while the second one is labeled with a positive (P) global polarity.
@@ -89,14 +89,14 @@ Before addressing the objective of this section, let's see the structure of docu
     > db.intertass.findOne();
     {
         "lang" : "es",
-	    "polarity" : "N",
-	    "dataset" : [
-	       "train"
-	    ],
-	    "content" : "@user jajajaja la tuya y la d mucha gente seguro!! Pero yo no puedo sin mi melena me muero",
-	    "tweet_id" : "000000000000000001",
-	    "user" : "user_1",
-	    "tweet_date" : ISODate("2016-08-23T22:25:29Z")
+        "polarity" : "N",
+        "dataset" : [
+            "train"
+        ],
+        "content" : "@user jajajaja la tuya y la d mucha gente seguro!! Pero yo no puedo sin mi melena me muero",
+        "tweet_id" : "000000000000000001",
+        "user" : "user_1",
+        "tweet_date" : ISODate("2016-08-23T22:25:29Z")
     }
 
 Where the ``dataset`` field is an array that holds the sets to which a document belongs. In this way, all the tweets of a given set can be filtered.
@@ -198,7 +198,7 @@ As a result, the less-correlated combinations of 2 and up to ``n_classifiers`` f
     $ python
     >> from model_selection import search_for_the_best_second_level_classifiers
     >> search_for_the_best_second_level_classifiers('intertass')
-    
+
 As a result, this Python function creates the ``/jacerong/experimentation/intertass-model-selection-ensemble-results.tsv`` file whose structure is described below:
 
 - *n_classifiers*: number of classifiers that constitute the ensemble.
